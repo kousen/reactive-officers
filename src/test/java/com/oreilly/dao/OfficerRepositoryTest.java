@@ -38,7 +38,6 @@ public class OfficerRepositoryTest {
         operations.collectionExists(Officer.class)
                 .flatMap(exists -> exists ? operations.dropCollection(Officer.class) : Mono.just(exists))
                 .flatMap(o -> operations.createCollection(Officer.class))
-                        //,CollectionOptions.empty().size(1024 * 1024).maxDocuments(100)))
                 .then()
                 .block();
 
