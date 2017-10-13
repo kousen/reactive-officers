@@ -36,14 +36,6 @@ public class ReactiveOfficersApplicationTests {
     private OfficerRepository repository;
 
     @Test
-    public void testHeaders() {
-        webTestClient.head()
-                .uri("/officers")
-                .exchange()
-                .expectHeader();
-    }
-
-    @Test
     public void testCreateOfficer() {
         Officer officer = new Officer(Rank.LIEUTENANT, "Nyota", "Uhuru");
 
@@ -101,21 +93,4 @@ public class ReactiveOfficersApplicationTests {
                 .jsonPath("$.last").isEqualTo("Lore");
     }
 
-    @Test @Ignore
-    public void testDeleteOfficer() {
-        Officer officer = repository.save(new Officer(Rank.ADMIRAL, "James", "Kirk")).block();
-
-        webTestClient.delete()
-                .uri("/officers/{id}", Collections.singletonMap("id",  Objects.requireNonNull(officer).getId()))
-                .exchange()
-                .expectStatus().isOk();
-    }
-
-    @Test @Ignore
-    public void testDeleteAll() {
-        webTestClient.delete()
-                .uri("/officers")
-                .exchange()
-                .expectStatus().isOk();
-    }
 }
