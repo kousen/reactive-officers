@@ -1,4 +1,4 @@
-package com.oreilly;
+package com.oreilly.controllers;
 
 import com.mongodb.MongoClientOptions;
 import com.oreilly.dao.OfficerRepository;

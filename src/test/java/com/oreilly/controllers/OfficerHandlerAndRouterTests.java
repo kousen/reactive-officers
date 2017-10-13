@@ -1,4 +1,4 @@
-package com.oreilly;
+package com.oreilly.controllers;
 
 import com.oreilly.dao.OfficerRepository;
 import com.oreilly.entities.Officer;
