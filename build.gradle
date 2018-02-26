@@ -1,6 +1,6 @@
 buildscript {
 	ext {
-		springBootVersion = '2.0.0.M5'
+		springBootVersion = '2.0.0.RC2'
 	}
 	repositories {
 		mavenCentral()
@@ -29,10 +29,10 @@ repositories {
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
-	compile('org.springframework.boot:spring-boot-starter-webflux')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
+    compile('org.springframework.boot:spring-boot-starter-webflux')
     testCompile('org.springframework.boot:spring-boot-starter-test')
-	testCompile('io.projectreactor:reactor-test')
+    testCompile('io.projectreactor:reactor-test')
     testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 
 }
