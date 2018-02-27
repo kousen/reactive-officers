@@ -2,86 +2,103 @@ package com.oreilly.dao;
 
 import com.oreilly.entities.Officer;
 import com.oreilly.entities.Rank;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.CollectionOptions;
-import org.springframework.data.mongodb.core.ReactiveMongoOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
-import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.Assert.*;
 
 @SuppressWarnings("Duplicates")
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OfficerRepositoryTest {
     @Autowired
-    private OfficerRepository dao;
+    private OfficerRepository repository;
+
+    private List<Officer> officers = Arrays.asList(
+            new Officer(Rank.CAPTAIN, "James", "Kirk"),
+            new Officer(Rank.CAPTAIN, "Jean-Luc", "Picard"),
+            new Officer(Rank.CAPTAIN, "Benjamin", "Sisko"),
+            new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
+            new Officer(Rank.CAPTAIN, "Jonathan", "Archer"));
 
     @Before
     public void setUp() {
-        dao.deleteAll()
-           .thenMany(Flux.just(new Officer(Rank.CAPTAIN, "James", "Kirk"),
-                               new Officer(Rank.CAPTAIN, "Jean-Luc", "Picard"),
-                               new Officer(Rank.CAPTAIN, "Benjamin", "Sisko"),
-                               new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
-                               new Officer(Rank.CAPTAIN, "Jonathan", "Archer")))
-           .flatMap(dao::save)
-           .thenMany(dao.findAll())
-           .subscribe(System.out::println);
+        repository.deleteAll()
+                  .thenMany(Flux.fromIterable(officers))
+                  .flatMap(repository::save)
+                  .then()
+                  .block();
     }
 
     @Test
     public void testSave() {
-        Officer officer = new Officer(Rank.LIEUTENANT, "Nyota", "Uhuru");
-        officer = dao.save(officer).block(Duration.ofSeconds(2));
-        assertNotNull(Objects.requireNonNull(officer).getId());
-        assertEquals(Rank.LIEUTENANT, officer.getRank());
-        assertEquals("Nyota", officer.getFirst());
-        assertEquals("Uhuru", officer.getLast());
+        Officer lorca = new Officer(Rank.CAPTAIN, "Gabriel", "Lorca");
+        StepVerifier.create(repository.save(lorca))
+                    .expectNextMatches(officer -> !officer.getId().equals(""))
+                    .verifyComplete();
     }
 
     @Test
     public void findAll() {
-        List<String> dbNames = dao.findAll()
-                .map(Officer::getLast)
-                .collect(Collectors.toList()).block();
-        assertThat(dbNames, containsInAnyOrder("Kirk", "Picard", "Sisko", "Janeway", "Archer"));
+        StepVerifier.create(repository.findAll())
+                    .expectNextCount(5)
+                    .verifyComplete();
+    }
+
+    @Test
+    public void findById() {
+        officers.stream()
+                .map(Officer::getId)
+                .forEach(id ->
+                                 StepVerifier.create(repository.findById(id))
+                                             .expectNextCount(1)
+                                             .verifyComplete());
+    }
+
+    @Test
+    public void findByIdNotExist() {
+        StepVerifier.create(repository.findById("xyz"))
+                    .verifyComplete();
     }
 
     @Test
     public void count() {
-        assertEquals(5, Objects.requireNonNull(dao.count().block()).intValue());
+        StepVerifier.create(repository.count())
+                    .expectNext(5L)
+                    .verifyComplete();
     }
 
     @Test
     public void findByRank() {
-        List<Officer> officers = dao.findByRank(Rank.CAPTAIN)
-                .collectList().block();
+        StepVerifier.create(
+                repository.findByRank(Rank.CAPTAIN)
+                          .map(Officer::getRank)
+                          .distinct())
+                    .expectNextCount(1)
+                    .verifyComplete();
 
-        Objects.requireNonNull(officers).forEach(captain ->
-                assertEquals(Rank.CAPTAIN, captain.getRank()));
+        StepVerifier.create(
+                repository.findByRank(Rank.ENSIGN)
+                          .map(Officer::getRank)
+                          .distinct())
+                    .verifyComplete();
     }
 
     @Test
     public void findByLast() {
-        List<String> lastNames = Arrays.asList("Kirk", "Picard", "Sisko", "Janeway", "Archer");
-        lastNames.forEach(lastName -> {
-            List<Officer> officers = dao.findByLast(lastName).collectList().block();
-            assertEquals(lastName,
-                    Objects.requireNonNull(officers).get(0).getLast());
-        });
+        officers.stream()
+                .map(Officer::getLast)
+                .forEach(lastName ->
+                                 StepVerifier.create(repository.findByLast(lastName))
+                                             .expectNextMatches(officer ->
+                                                                        officer.getLast().equals(lastName))
+                                             .verifyComplete());
     }
 }
