@@ -13,8 +13,12 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/officers")
 public class OfficerController {
 
+    private final OfficerRepository repository;
+
     @Autowired
-    private OfficerRepository repository;
+    public OfficerController(OfficerRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping
     public Flux<Officer> getAllOfficers() {
@@ -34,27 +38,27 @@ public class OfficerController {
 
     @PutMapping("{id}")
     public Mono<ResponseEntity<Officer>> updateOfficer(@PathVariable(value = "id") String id,
-                                                     @RequestBody Officer officer) {
+                                                       @RequestBody Officer officer) {
         return repository.findById(id)
-                .flatMap(existingOfficer -> {
-                    existingOfficer.setRank(officer.getRank());
-                    existingOfficer.setFirst(officer.getFirst());
-                    existingOfficer.setLast(officer.getLast());
-                    return repository.save(existingOfficer);
-                })
-                .map(updateOfficer -> new ResponseEntity<>(updateOfficer, HttpStatus.OK))
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                         .flatMap(existingOfficer -> {
+                             existingOfficer.setRank(officer.getRank());
+                             existingOfficer.setFirst(officer.getFirst());
+                             existingOfficer.setLast(officer.getLast());
+                             return repository.save(existingOfficer);
+                         })
+                         .map(updateOfficer -> new ResponseEntity<>(updateOfficer, HttpStatus.OK))
+                         .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("{id}")
     public Mono<ResponseEntity<Void>> deleteOfficer(@PathVariable(value = "id") String id) {
 
         return repository.findById(id)
-                .flatMap(existingOfficer ->
-                        repository.delete(existingOfficer)
-                                .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
-                )
-                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+                         .flatMap(existingOfficer ->
+                                          repository.delete(existingOfficer)
+                                                    .then(Mono.just(new ResponseEntity<Void>(HttpStatus.OK)))
+                         )
+                         .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping
