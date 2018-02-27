@@ -30,24 +30,17 @@ public class OfficerRepositoryTest {
     @Autowired
     private OfficerRepository dao;
 
-    @Autowired
-    private ReactiveMongoOperations operations;
-
     @Before
     public void setUp() {
-        operations.collectionExists(Officer.class)
-                .flatMap(exists -> exists ? operations.dropCollection(Officer.class) : Mono.just(exists))
-                .flatMap(o -> operations.createCollection(Officer.class))
-                .then()
-                .block();
-
-        dao.saveAll(Flux.just(new Officer(Rank.CAPTAIN, "James", "Kirk"),
-                new Officer(Rank.CAPTAIN, "Jean-Luc", "Picard"),
-                new Officer(Rank.CAPTAIN, "Benjamin", "Sisko"),
-                new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
-                new Officer(Rank.CAPTAIN, "Jonathan", "Archer")))
-                .then()
-                .block();
+        dao.deleteAll()
+           .thenMany(Flux.just(new Officer(Rank.CAPTAIN, "James", "Kirk"),
+                               new Officer(Rank.CAPTAIN, "Jean-Luc", "Picard"),
+                               new Officer(Rank.CAPTAIN, "Benjamin", "Sisko"),
+                               new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
+                               new Officer(Rank.CAPTAIN, "Jonathan", "Archer")))
+           .flatMap(dao::save)
+           .thenMany(dao.findAll())
+           .subscribe(System.out::println);
     }
 
     @Test
