@@ -22,20 +22,20 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-	mavenCentral()
-	maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
     compile('org.springframework.boot:spring-boot-starter-webflux')
     testCompile('org.springframework.boot:spring-boot-starter-test')  {
-		exclude module: 'junit'
-	}
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-	testCompile('io.projectreactor:reactor-test')
+        exclude module: 'junit'
+    }
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    testCompile('io.projectreactor:reactor-test')
     testCompile 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 
 }
