@@ -1,8 +1,8 @@
-package com.nfjs.reactiveofficers.controllers;
+package com.oreilly.reactiveofficers.controllers;
 
-import com.nfjs.reactiveofficers.dao.OfficerRepository;
-import com.nfjs.reactiveofficers.entities.Officer;
-import com.nfjs.reactiveofficers.entities.Rank;
+import com.oreilly.reactiveofficers.dao.OfficerRepository;
+import com.oreilly.reactiveofficers.entities.Officer;
+import com.oreilly.reactiveofficers.entities.Rank;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package com.nfjs.reactiveofficers.configuration;
+package com.oreilly.reactiveofficers.configuration;
 
-import com.nfjs.reactiveofficers.controllers.OfficerHandler;
+import com.oreilly.reactiveofficers.controllers.OfficerHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.server.RouterFunction;

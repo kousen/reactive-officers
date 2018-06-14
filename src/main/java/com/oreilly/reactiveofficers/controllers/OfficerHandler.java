@@ -1,7 +1,7 @@
-package com.nfjs.reactiveofficers.controllers;
+package com.oreilly.reactiveofficers.controllers;
 
-import com.nfjs.reactiveofficers.dao.OfficerRepository;
-import com.nfjs.reactiveofficers.entities.Officer;
+import com.oreilly.reactiveofficers.dao.OfficerRepository;
+import com.oreilly.reactiveofficers.entities.Officer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;

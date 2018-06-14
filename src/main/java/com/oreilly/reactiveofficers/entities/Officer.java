@@ -1,4 +1,4 @@
-package com.nfjs.reactiveofficers.entities;
+package com.oreilly.reactiveofficers.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

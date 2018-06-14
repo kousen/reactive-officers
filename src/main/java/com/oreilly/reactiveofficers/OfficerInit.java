@@ -1,8 +1,8 @@
-package com.nfjs.reactiveofficers;
+package com.oreilly.reactiveofficers;
 
-import com.nfjs.reactiveofficers.dao.OfficerRepository;
-import com.nfjs.reactiveofficers.entities.Officer;
-import com.nfjs.reactiveofficers.entities.Rank;
+import com.oreilly.reactiveofficers.dao.OfficerRepository;
+import com.oreilly.reactiveofficers.entities.Officer;
+import com.oreilly.reactiveofficers.entities.Rank;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;

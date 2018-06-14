@@ -1,4 +1,4 @@
-package com.nfjs.reactiveofficers;
+package com.oreilly.reactiveofficers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

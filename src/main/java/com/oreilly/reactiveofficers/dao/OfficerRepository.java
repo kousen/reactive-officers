@@ -1,7 +1,7 @@
-package com.nfjs.reactiveofficers.dao;
+package com.oreilly.reactiveofficers.dao;
 
-import com.nfjs.reactiveofficers.entities.Officer;
-import com.nfjs.reactiveofficers.entities.Rank;
+import com.oreilly.reactiveofficers.entities.Officer;
+import com.oreilly.reactiveofficers.entities.Rank;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Flux;
 
