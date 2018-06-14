@@ -16,16 +16,18 @@ repositories {
     maven { url "https://repo.spring.io/milestone" }
 }
 
+def junit5version = '5.2.0'
+
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
     implementation('org.springframework.boot:spring-boot-starter-webflux')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
     testImplementation('io.projectreactor:reactor-test')
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit5version}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5version}"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:${junit5version}"
 }
 
 test {
