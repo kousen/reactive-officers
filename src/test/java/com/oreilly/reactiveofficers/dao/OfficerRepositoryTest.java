@@ -1,21 +1,22 @@
-package com.oreilly.dao;
+package com.nfjs.reactiveofficers.dao;
 
-import com.oreilly.entities.Officer;
-import com.oreilly.entities.Rank;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import com.nfjs.reactiveofficers.entities.Officer;
+import com.nfjs.reactiveofficers.entities.Rank;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.util.Arrays;
 import java.util.List;
 
-@SuppressWarnings("Duplicates")
-@ExtendWith(SpringExtension.class)
+import static org.junit.Assert.*;
+
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class OfficerRepositoryTest {
     @Autowired
@@ -28,17 +29,18 @@ public class OfficerRepositoryTest {
             new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
             new Officer(Rank.CAPTAIN, "Jonathan", "Archer"));
 
-    @BeforeEach
+    @Before
     public void setUp() {
         repository.deleteAll()
                   .thenMany(Flux.fromIterable(officers))
                   .flatMap(repository::save)
+                  .doOnNext(System.out::println)
                   .then()
                   .block();
     }
 
     @Test
-    public void testSave() {
+    public void save() {
         Officer lorca = new Officer(Rank.CAPTAIN, "Gabriel", "Lorca");
         StepVerifier.create(repository.save(lorca))
                     .expectNextMatches(officer -> !officer.getId().equals(""))

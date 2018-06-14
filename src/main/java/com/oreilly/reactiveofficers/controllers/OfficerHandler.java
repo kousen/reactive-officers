@@ -1,12 +1,11 @@
-package com.oreilly.controllers;
+package com.nfjs.reactiveofficers.controllers;
 
-import com.oreilly.dao.OfficerRepository;
-import com.oreilly.entities.Officer;
+import com.nfjs.reactiveofficers.dao.OfficerRepository;
+import com.nfjs.reactiveofficers.entities.Officer;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -21,18 +20,17 @@ public class OfficerHandler {
     }
 
     public Mono<ServerResponse> listOfficers(ServerRequest request) {
-        Flux<Officer> officers = repository.findAll();
         return ServerResponse.ok()
-                .contentType(APPLICATION_JSON)
-                .body(officers, Officer.class);
+                             .contentType(APPLICATION_JSON)
+                             .body(repository.findAll(), Officer.class);
     }
 
     public Mono<ServerResponse> createOfficer(ServerRequest request) {
         Mono<Officer> officerMono = request.bodyToMono(Officer.class);
         return officerMono.flatMap(officer ->
-                ServerResponse.status(HttpStatus.CREATED)
-                        .contentType(APPLICATION_JSON)
-                        .body(repository.save(officer), Officer.class));
+                                           ServerResponse.status(HttpStatus.CREATED)
+                                                         .contentType(APPLICATION_JSON)
+                                                         .body(repository.save(officer), Officer.class));
     }
 
     public Mono<ServerResponse> getOfficer(ServerRequest request) {
@@ -41,8 +39,8 @@ public class OfficerHandler {
         Mono<Officer> personMono = this.repository.findById(id);
         return personMono
                 .flatMap(person -> ServerResponse.ok()
-                        .contentType(APPLICATION_JSON)
-                        .body(fromObject(person)))
+                                                 .contentType(APPLICATION_JSON)
+                                                 .body(fromObject(person)))
                 .switchIfEmpty(notFound);
     }
 }

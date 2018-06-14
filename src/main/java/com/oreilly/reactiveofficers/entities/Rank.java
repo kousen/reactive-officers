@@ -1,4 +1,4 @@
-package com.oreilly.entities;
+package com.nfjs.reactiveofficers.entities;
 
 public enum Rank {
     ENSIGN, LIEUTENANT, COMMANDER, CAPTAIN, COMMODORE, ADMIRAL

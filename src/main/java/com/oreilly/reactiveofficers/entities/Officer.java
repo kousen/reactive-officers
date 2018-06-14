@@ -1,11 +1,10 @@
-package com.oreilly.entities;
+package com.nfjs.reactiveofficers.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Officer {
-
     @Id
     private String id;
     private Rank rank;
@@ -61,7 +60,12 @@ public class Officer {
 
     @Override
     public String toString() {
-        return String.format("%s %s %s", rank, first, last);
+        return "Officer{" +
+                "id=" + id +
+                ", rank=" + rank +
+                ", first='" + first + '\'' +
+                ", last='" + last + '\'' +
+                '}';
     }
 
     @Override
