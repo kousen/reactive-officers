@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("/officers")
 public class OfficerController {
     private OfficerRepository repository;
 
@@ -16,23 +17,23 @@ public class OfficerController {
         this.repository = repository;
     }
 
-    @GetMapping("/officers")
+    @GetMapping
     public Flux<Officer> getAllOfficers() {
         return repository.findAll();
     }
 
-    @GetMapping("/officers/{id}")
+    @GetMapping("{id}")
     public Mono<Officer> getOfficer(@PathVariable String id) {
         return repository.findById(id);
     }
 
-    @PostMapping("/officers")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Officer> saveOfficer(@RequestBody Officer officer) {
         return repository.save(officer);
     }
 
-    @PutMapping("/officers/{id}")
+    @PutMapping("{id}")
     public Mono<ResponseEntity<Officer>> updateOfficer(@PathVariable(value = "id") String id,
                                                        @RequestBody Officer officer) {
         return repository.findById(id)
@@ -46,7 +47,7 @@ public class OfficerController {
                          .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/officers/{id}")
+    @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public Mono<ResponseEntity<Object>> deleteOfficer(@PathVariable(value = "id") String id) {
         return repository.deleteById(id)
@@ -54,7 +55,7 @@ public class OfficerController {
                          .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/officers")
+    @DeleteMapping
     public Mono<Void> deleteAllOfficers() {
         return repository.deleteAll();
     }

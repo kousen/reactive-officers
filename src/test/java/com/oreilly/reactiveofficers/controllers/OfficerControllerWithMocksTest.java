@@ -26,11 +26,12 @@ public class OfficerControllerWithMocksTest {
 
     @Test
     public void testGetAllOfficers() {
-        given(repository.findAll()).willReturn(Flux.just(new Officer(Rank.CAPTAIN, "James", "Kirk"),
-                                                         new Officer(Rank.CAPTAIN, "Jean-Luc", "Picard"),
-                                                         new Officer(Rank.CAPTAIN, "Benjamin", "Sisko"),
-                                                         new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
-                                                         new Officer(Rank.CAPTAIN, "Jonathan", "Archer")));
+        given(repository.findAll())
+                .willReturn(Flux.just(new Officer(Rank.CAPTAIN, "James", "Kirk"),
+                                      new Officer(Rank.CAPTAIN, "Jean-Luc", "Picard"),
+                                      new Officer(Rank.CAPTAIN, "Benjamin", "Sisko"),
+                                      new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
+                                      new Officer(Rank.CAPTAIN, "Jonathan", "Archer")));
         client.get().uri("/officers")
               .accept(MediaType.APPLICATION_JSON_UTF8)
               .exchange()
