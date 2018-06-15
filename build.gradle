@@ -27,7 +27,7 @@ dependencies {
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junit5version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5version}"
-    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:${junit5version}"
+//    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:${junit5version}"
 }
 
 test {

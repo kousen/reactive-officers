@@ -33,8 +33,7 @@ public class OfficerRepositoryTest {
                   .thenMany(Flux.fromIterable(officers))
                   .flatMap(repository::save)
                   .doOnNext(System.out::println)
-                  .then()
-                  .block();
+                  .blockLast();
     }
 
     @Test
