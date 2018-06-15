@@ -3,19 +3,21 @@ package com.oreilly.reactiveofficers.controllers;
 import com.oreilly.reactiveofficers.dao.OfficerRepository;
 import com.oreilly.reactiveofficers.entities.Officer;
 import com.oreilly.reactiveofficers.entities.Rank;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 
 import static org.mockito.BDDMockito.given;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebFluxTest(OfficerController.class)
 public class OfficerControllerWithMocksTest {
     @Autowired

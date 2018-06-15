@@ -4,13 +4,13 @@ import com.oreilly.reactiveofficers.dao.OfficerRepository;
 import com.oreilly.reactiveofficers.entities.Officer;
 import com.oreilly.reactiveofficers.entities.Rank;
 import org.assertj.core.api.Assertions;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class OfficerHandlerAndRouterTests {
     @Autowired
@@ -34,14 +34,13 @@ public class OfficerHandlerAndRouterTests {
             new Officer(Rank.CAPTAIN, "Kathryn", "Janeway"),
             new Officer(Rank.CAPTAIN, "Jonathan", "Archer"));
 
-    @Before
+    @BeforeEach
     public void setUp() {
         repository.deleteAll()
                   .thenMany(Flux.fromIterable(officers))
                   .flatMap(repository::save)
                   .doOnNext(System.out::println)
-                  .then()
-                  .block();
+                  .blockLast();
     }
 
     @Test
