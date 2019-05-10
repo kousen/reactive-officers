@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.0.3.RELEASE'
+    id 'org.springframework.boot' version '2.1.4.RELEASE'
 }
 
 apply plugin: 'java'
@@ -16,7 +16,7 @@ repositories {
     maven { url "https://repo.spring.io/milestone" }
 }
 
-def junit5version = '5.2.0'
+def junit5version = '5.4.2'
 
 dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
@@ -25,8 +25,7 @@ dependencies {
     testImplementation('io.projectreactor:reactor-test')
     testImplementation 'de.flapdoodle.embed:de.flapdoodle.embed.mongo'
 
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit5version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5version}"
+    testImplementation "org.junit.jupiter:junit-jupiter:${junit5version}"
 //    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:${junit5version}"
 }
 
